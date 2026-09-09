@@ -1,46 +1,45 @@
-# CodeGraph
+# PyCodeGraph
 
-This repository contains both parts of the project:
+PyCodeGraph is a Python static-analysis project that converts Python source code into a language-neutral CodeGraph JSON artifact. The repository also includes a browser-based Viewer for exploring generated graphs.
 
-- `Viewer/` root files (`index.html`, `app.js`, `styles.css`) — a static browser-based visualizer for CodeGraph JSON artifacts.
-- `PyCodeGraph/` — a Python-only static analyzer that generates CodeGraph JSON artifacts from Python source code.
+Currently, the analyzer supports **Python only**.
 
-## Generate a graph
+## Install
 
 Python 3.11 or newer is required.
 
 ```bash
-cd PyCodeGraph
 python -m pip install -e .
+```
+
+## Generate a graph
+
+Analyze a project directory:
+
+```bash
 pycodegraph /path/to/python/project -o graph.json --summary
 ```
 
-See `PyCodeGraph/README.md` for parser details.
+Analyze a single Python file:
 
-## Open the viewer
+```bash
+pycodegraph script.py -o graph.json
+```
 
-From the repository root, either open `index.html` directly or serve the directory:
+Use `--include-locals` when local-variable reads and writes are needed.
+
+## Open the Viewer
+
+The Viewer is in `Viewer/` and does not require a backend. You can open `Viewer/index.html` directly, or serve it locally:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then open `http://localhost:8000` and load the generated CodeGraph JSON file.
+Then open `http://localhost:8000/Viewer/` and load a generated CodeGraph JSON file.
 
-## Interaction
+## Tests
 
-- Wheel: zoom.
-- Drag empty canvas: pan.
-- Drag a node: move that node.
-- Drag a class frame **header**: move the frame and its visible child nodes together.
-- Drag empty space inside a frame body: pan the canvas.
-- Click a node: select and focus its incident relations.
-- Double-click a module/class: enter Structure projection.
-- Double-click a function/method: open its neighborhood.
-- Click a relation row (`calls`, `imports`, etc.): expand endpoint names.
-
-## Visual semantics
-
-- Circular socket: value/interface input.
-- Diamond port: static program relation such as calls/imports/uses_type.
-- Hierarchy frame: `contains` / ownership. `contains` is represented spatially rather than as a wire.
+```bash
+python -m pytest
+```
