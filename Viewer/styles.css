@@ -113,3 +113,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monos
 /* Semantic node interface (v3) */
 .legend-diamond { width: 9px; height: 9px; display: inline-block; background: #9aa5b1; transform: rotate(45deg); box-shadow: 0 0 0 1px rgba(0,0,0,.45); }
 .legend-socket.value { background: #84cfd2; }
+
+.relation-section { margin: 0 0 12px; }
+.relation-section-title { display:flex; justify-content:space-between; gap:8px; padding:5px 0; color:#aebdcd; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #27313c; }
+.relation-section-title span { color:#72869a; font-weight:500; }
+.relation-section .relation-row { display:flex; align-items:baseline; gap:8px; padding:6px 0 6px 8px; }
+.relation-section .relation-target { flex:1; min-width:0; overflow-wrap:anywhere; }
+.relation-multiplicity { color:#7f91a4; font-size:10px; white-space:nowrap; }
