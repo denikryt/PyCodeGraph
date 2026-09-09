@@ -197,3 +197,21 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monos
   .workspace { grid-template-columns: minmax(0, 1fr); }
   .sidebar.right { display: none; }
 }
+
+/* Compact navigation history and current graph context. */
+.nav-history { display:flex; align-items:center; min-width:0; gap:7px; }
+.nav-back { width:32px; height:32px; padding:0; flex:0 0 auto; font-size:18px; line-height:1; }
+.nav-back:disabled { opacity:.32; cursor:default; background:transparent; }
+.breadcrumb { min-width:0; max-width:330px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:#c8d2dd; font-size:11px; }
+.breadcrumb-part { vertical-align:middle; }
+.breadcrumb-sep { color:#637487; margin:0 5px; vertical-align:middle; }
+.topbar { grid-template-columns:minmax(180px,auto) minmax(120px,330px) minmax(0,1fr) auto; }
+@media (max-width:1280px) {
+  .topbar { grid-template-columns:auto minmax(90px,220px) minmax(0,1fr) auto; }
+  .breadcrumb { max-width:220px; }
+}
+@media (max-width:980px) {
+  .topbar { grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"brand history tools" "tabs tabs tabs"; }
+  .nav-history { grid-area:history; }
+  .breadcrumb { max-width:none; }
+}
