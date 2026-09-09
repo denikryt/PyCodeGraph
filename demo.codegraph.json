@@ -1,0 +1,650 @@
+{
+  "schema": "pycodegraph/1.0",
+  "generator": {
+    "name": "pycodegraph",
+    "version": "0.1.0",
+    "frontend": "python-ast"
+  },
+  "project": {
+    "name": "examples",
+    "root": "/mnt/data/pycodegraph/examples",
+    "python_files": 1,
+    "entity_counts": {
+      "class": 1,
+      "external": 1,
+      "field": 2,
+      "function": 1,
+      "method": 1,
+      "module": 1,
+      "parameter": 3,
+      "project": 1,
+      "type": 1
+    },
+    "relation_count": 32,
+    "include_locals": false
+  },
+  "entities": [
+    {
+      "id": "py:class:sample.Point",
+      "kind": "class",
+      "name": "Point",
+      "qualified_name": "sample.Point",
+      "parent": "py:module:sample",
+      "span": {
+        "path": "sample.py",
+        "start_line": 4,
+        "start_col": 0,
+        "end_line": 9,
+        "end_col": 57
+      },
+      "attributes": {
+        "decorators": [
+          "dataclass"
+        ]
+      }
+    },
+    {
+      "id": "py:external:dataclasses.dataclass",
+      "kind": "external",
+      "name": "dataclass",
+      "qualified_name": "dataclasses.dataclass",
+      "parent": null,
+      "span": null,
+      "attributes": {
+        "external": true
+      }
+    },
+    {
+      "id": "py:field:sample.Point.x",
+      "kind": "field",
+      "name": "x",
+      "qualified_name": "sample.Point.x",
+      "parent": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 16,
+        "end_line": 9,
+        "end_col": 22
+      },
+      "attributes": {}
+    },
+    {
+      "id": "py:field:sample.Point.y",
+      "kind": "field",
+      "name": "y",
+      "qualified_name": "sample.Point.y",
+      "parent": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 34,
+        "end_line": 9,
+        "end_col": 40
+      },
+      "attributes": {}
+    },
+    {
+      "id": "py:function:sample.make_point",
+      "kind": "function",
+      "name": "make_point",
+      "qualified_name": "sample.make_point",
+      "parent": "py:module:sample",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 0,
+        "end_line": 12,
+        "end_col": 22
+      },
+      "attributes": {
+        "async_": false,
+        "returns": "Point",
+        "decorators": []
+      }
+    },
+    {
+      "id": "py:method:sample.Point.length",
+      "kind": "method",
+      "name": "length",
+      "qualified_name": "sample.Point.length",
+      "parent": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 4,
+        "end_line": 9,
+        "end_col": 57
+      },
+      "attributes": {
+        "async_": false,
+        "returns": "float",
+        "decorators": []
+      }
+    },
+    {
+      "id": "py:module:sample",
+      "kind": "module",
+      "name": "sample",
+      "qualified_name": "sample",
+      "parent": "py:project:examples",
+      "span": null,
+      "attributes": {
+        "path": "sample.py"
+      }
+    },
+    {
+      "id": "py:parameter:sample.Point.length.self",
+      "kind": "parameter",
+      "name": "self",
+      "qualified_name": "sample.Point.length.self",
+      "parent": "py:method:sample.Point.length",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 15,
+        "end_line": 8,
+        "end_col": 19
+      },
+      "attributes": {
+        "annotation": null
+      }
+    },
+    {
+      "id": "py:parameter:sample.make_point.x",
+      "kind": "parameter",
+      "name": "x",
+      "qualified_name": "sample.make_point.x",
+      "parent": "py:function:sample.make_point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 15,
+        "end_line": 11,
+        "end_col": 23
+      },
+      "attributes": {
+        "annotation": "float"
+      }
+    },
+    {
+      "id": "py:parameter:sample.make_point.y",
+      "kind": "parameter",
+      "name": "y",
+      "qualified_name": "sample.make_point.y",
+      "parent": "py:function:sample.make_point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 25,
+        "end_line": 11,
+        "end_col": 33
+      },
+      "attributes": {
+        "annotation": "float"
+      }
+    },
+    {
+      "id": "py:project:examples",
+      "kind": "project",
+      "name": "examples",
+      "qualified_name": "examples",
+      "parent": null,
+      "span": null,
+      "attributes": {
+        "root": "/mnt/data/pycodegraph/examples"
+      }
+    },
+    {
+      "id": "py:type:float",
+      "kind": "type",
+      "name": "float",
+      "qualified_name": "float",
+      "parent": null,
+      "span": null,
+      "attributes": {
+        "external": true
+      }
+    }
+  ],
+  "relations": [
+    {
+      "kind": "accepts",
+      "source": "py:function:sample.make_point",
+      "target": "py:parameter:sample.make_point.x",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 15,
+        "end_line": 11,
+        "end_col": 23
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "accepts",
+      "source": "py:function:sample.make_point",
+      "target": "py:parameter:sample.make_point.y",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 25,
+        "end_line": 11,
+        "end_col": 33
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "accepts",
+      "source": "py:method:sample.Point.length",
+      "target": "py:parameter:sample.Point.length.self",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 15,
+        "end_line": 8,
+        "end_col": 19
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "calls",
+      "source": "py:function:sample.make_point",
+      "target": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 12,
+        "start_col": 11,
+        "end_line": 12,
+        "end_col": 22
+      },
+      "attributes": {
+        "confidence": "exact",
+        "expression": "Point"
+      }
+    },
+    {
+      "kind": "contains",
+      "source": "py:class:sample.Point",
+      "target": "py:field:sample.Point.x",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 16,
+        "end_line": 9,
+        "end_col": 22
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:class:sample.Point",
+      "target": "py:field:sample.Point.y",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 34,
+        "end_line": 9,
+        "end_col": 40
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:class:sample.Point",
+      "target": "py:method:sample.Point.length",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 4,
+        "end_line": 9,
+        "end_col": 57
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:function:sample.make_point",
+      "target": "py:parameter:sample.make_point.x",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 15,
+        "end_line": 11,
+        "end_col": 23
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:function:sample.make_point",
+      "target": "py:parameter:sample.make_point.y",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 25,
+        "end_line": 11,
+        "end_col": 33
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:method:sample.Point.length",
+      "target": "py:parameter:sample.Point.length.self",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 15,
+        "end_line": 8,
+        "end_col": 19
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:module:sample",
+      "target": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 4,
+        "start_col": 0,
+        "end_line": 9,
+        "end_col": 57
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:module:sample",
+      "target": "py:function:sample.make_point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 0,
+        "end_line": 12,
+        "end_col": 22
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "contains",
+      "source": "py:project:examples",
+      "target": "py:module:sample",
+      "span": null,
+      "attributes": {}
+    },
+    {
+      "kind": "decorated_by",
+      "source": "py:class:sample.Point",
+      "target": "py:external:dataclasses.dataclass",
+      "span": {
+        "path": "sample.py",
+        "start_line": 3,
+        "start_col": 1,
+        "end_line": 3,
+        "end_col": 10
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "imports",
+      "source": "py:module:sample",
+      "target": "py:external:dataclasses.dataclass",
+      "span": {
+        "path": "sample.py",
+        "start_line": 1,
+        "start_col": 0,
+        "end_line": 1,
+        "end_col": 33
+      },
+      "attributes": {
+        "imported": "dataclasses.dataclass"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:function:sample.make_point",
+      "target": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 12,
+        "start_col": 11,
+        "end_line": 12,
+        "end_col": 16
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:function:sample.make_point",
+      "target": "py:parameter:sample.make_point.x",
+      "span": {
+        "path": "sample.py",
+        "start_line": 12,
+        "start_col": 17,
+        "end_line": 12,
+        "end_col": 18
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:function:sample.make_point",
+      "target": "py:parameter:sample.make_point.y",
+      "span": {
+        "path": "sample.py",
+        "start_line": 12,
+        "start_col": 20,
+        "end_line": 12,
+        "end_col": 21
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:field:sample.Point.x",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 16,
+        "end_line": 9,
+        "end_col": 22
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:field:sample.Point.x",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 25,
+        "end_line": 9,
+        "end_col": 31
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:field:sample.Point.y",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 34,
+        "end_line": 9,
+        "end_col": 40
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:field:sample.Point.y",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 43,
+        "end_line": 9,
+        "end_col": 49
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:parameter:sample.Point.length.self",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 16,
+        "end_line": 9,
+        "end_col": 20
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:parameter:sample.Point.length.self",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 25,
+        "end_line": 9,
+        "end_col": 29
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:parameter:sample.Point.length.self",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 34,
+        "end_line": 9,
+        "end_col": 38
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "reads",
+      "source": "py:method:sample.Point.length",
+      "target": "py:parameter:sample.Point.length.self",
+      "span": {
+        "path": "sample.py",
+        "start_line": 9,
+        "start_col": 43,
+        "end_line": 9,
+        "end_col": 47
+      },
+      "attributes": {
+        "confidence": "exact"
+      }
+    },
+    {
+      "kind": "returns",
+      "source": "py:function:sample.make_point",
+      "target": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 38,
+        "end_line": 11,
+        "end_col": 43
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "returns",
+      "source": "py:method:sample.Point.length",
+      "target": "py:type:float",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 24,
+        "end_line": 8,
+        "end_col": 29
+      },
+      "attributes": {}
+    },
+    {
+      "kind": "uses_type",
+      "source": "py:function:sample.make_point",
+      "target": "py:class:sample.Point",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 38,
+        "end_line": 11,
+        "end_col": 43
+      },
+      "attributes": {
+        "role": "return"
+      }
+    },
+    {
+      "kind": "uses_type",
+      "source": "py:method:sample.Point.length",
+      "target": "py:type:float",
+      "span": {
+        "path": "sample.py",
+        "start_line": 8,
+        "start_col": 24,
+        "end_line": 8,
+        "end_col": 29
+      },
+      "attributes": {
+        "role": "return"
+      }
+    },
+    {
+      "kind": "uses_type",
+      "source": "py:parameter:sample.make_point.x",
+      "target": "py:type:float",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 18,
+        "end_line": 11,
+        "end_col": 23
+      },
+      "attributes": {
+        "role": "annotation"
+      }
+    },
+    {
+      "kind": "uses_type",
+      "source": "py:parameter:sample.make_point.y",
+      "target": "py:type:float",
+      "span": {
+        "path": "sample.py",
+        "start_line": 11,
+        "start_col": 28,
+        "end_line": 11,
+        "end_col": 33
+      },
+      "attributes": {
+        "role": "annotation"
+      }
+    }
+  ],
+  "diagnostics": []
+}

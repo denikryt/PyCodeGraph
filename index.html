@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CodeGraph Viewer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">CG</div>
+        <div>
+          <div class="title">CodeGraph Viewer</div>
+          <div id="projectMeta" class="subtitle">Drop a PyCodeGraph JSON artifact to begin</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="fitBtn" class="ghost" title="Fit graph to viewport">Fit</button>
+        <button id="resetBtn" class="ghost" title="Reset the current projection">Reset view</button>
+        <label class="button primary" for="fileInput">Open JSON</label>
+        <input id="fileInput" type="file" accept="application/json,.json" hidden />
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar left">
+        <section>
+          <h3>Projection</h3>
+          <div id="projectionButtons" class="segmented vertical">
+            <button data-projection="architecture" class="active">Architecture</button>
+            <button data-projection="structure">Structure</button>
+            <button data-projection="types">Types</button>
+            <button data-projection="calls">Call graph</button>
+            <button data-projection="neighborhood">Neighborhood</button>
+            <button data-projection="custom">Custom</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>Search</h3>
+          <input id="searchInput" class="text-input" placeholder="name, qualified name…" autocomplete="off" />
+          <div id="searchResults" class="search-results"></div>
+        </section>
+
+        <section id="scopeSection">
+          <h3>Scope</h3>
+          <select id="scopeSelect" class="select">
+            <option value="overview">Project overview</option>
+            <option value="module">Selected module</option>
+            <option value="selection">Selected entity</option>
+          </select>
+          <label class="field-row">
+            <span>Depth</span>
+            <input id="depthInput" type="range" min="1" max="3" step="1" value="1" />
+            <output id="depthOutput">1</output>
+          </label>
+          <label class="field-row">
+            <span>Node limit</span>
+            <input id="limitInput" type="number" min="25" max="2000" step="25" value="350" />
+          </label>
+        </section>
+
+        <section id="filtersSection">
+          <div class="section-head">
+            <h3>Filters</h3>
+            <button id="selectAllFilters" class="link-button">All</button>
+          </div>
+          <div id="entityFilters" class="filter-grid"></div>
+          <div class="filter-separator"></div>
+          <div id="relationFilters" class="filter-grid"></div>
+        </section>
+      </aside>
+
+      <section id="graphPanel" class="graph-panel">
+        <canvas id="graphCanvas"></canvas>
+        <div id="emptyState" class="empty-state">
+          <div class="empty-card">
+            <div class="empty-icon">{ }</div>
+            <h2>Open a CodeGraph artifact</h2>
+            <p>This viewer is independent of the analyzer. Load any JSON matching the <code>pycodegraph/1.0</code> IR.</p>
+            <label class="button primary" for="fileInput">Choose JSON</label>
+          </div>
+        </div>
+        <div id="dropOverlay" class="drop-overlay">Drop CodeGraph JSON</div>
+        <div id="graphStatus" class="graph-status"></div>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <aside class="sidebar right">
+        <section>
+          <h3>Selection</h3>
+          <div id="selectionEmpty" class="muted">Click a node to inspect it. Round sockets are values; diamond relation rows can be expanded to reveal program-structure links.</div>
+          <div id="selectionDetails" hidden>
+            <div class="entity-heading">
+              <span id="entityKind" class="pill"></span>
+              <h2 id="entityName"></h2>
+            </div>
+            <div id="entityQualified" class="mono small break"></div>
+            <dl id="entityMeta" class="details-list"></dl>
+            <div class="detail-actions">
+              <button id="focusBtn" class="button">Focus neighborhood</button>
+              <button id="moduleBtn" class="button">Open module</button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-head">
+            <h3>Relations</h3>
+            <span id="relationCountBadge" class="badge">0</span>
+          </div>
+          <div id="relationList" class="relation-list muted">No selection.</div>
+        </section>
+
+        <section>
+          <h3>Outline</h3>
+          <div id="outline" class="outline muted">Load a graph to see its module hierarchy.</div>
+        </section>
+      </aside>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
