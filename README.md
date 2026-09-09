@@ -1,5 +1,7 @@
 # PyCodeGraph
 
+![PyCodeGraphViewer](docs/images/PyCodeGraphViewer.png)
+
 PyCodeGraph is a Python static-analysis project that converts Python source code into a language-neutral CodeGraph JSON artifact. The repository also includes a browser-based Viewer for exploring generated graphs.
 
 Currently, the analyzer supports **Python only**.
