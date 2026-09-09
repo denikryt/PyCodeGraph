@@ -16,7 +16,21 @@
           <div id="projectMeta" class="subtitle">Drop a PyCodeGraph JSON artifact to begin</div>
         </div>
       </div>
-      <div class="top-actions">
+
+      <nav id="projectionButtons" class="projection-tabs" aria-label="Graph projection">
+        <button data-projection="architecture" class="active">Architecture</button>
+        <button data-projection="structure">Structure</button>
+        <button data-projection="types">Types</button>
+        <button data-projection="calls">Call graph</button>
+        <button data-projection="neighborhood">Neighborhood</button>
+        <button data-projection="custom">Custom</button>
+      </nav>
+
+      <div class="top-tools">
+        <div class="top-search">
+          <input id="searchInput" class="text-input" placeholder="Search…" autocomplete="off" />
+          <div id="searchResults" class="search-results"></div>
+        </div>
         <button id="fitBtn" class="ghost" title="Fit graph to viewport">Fit</button>
         <button id="resetBtn" class="ghost" title="Reset the current projection">Reset view</button>
         <label class="button primary" for="fileInput">Open JSON</label>
@@ -24,55 +38,22 @@
       </div>
     </header>
 
+    <!-- Internal projection defaults retained for the renderer; intentionally not exposed in the UI. -->
+    <div class="viewer-internal-controls" aria-hidden="true">
+      <select id="scopeSelect">
+        <option value="overview">Project overview</option>
+        <option value="module">Selected module</option>
+        <option value="selection">Selected entity</option>
+      </select>
+      <input id="depthInput" type="range" min="1" max="3" step="1" value="1" />
+      <output id="depthOutput">1</output>
+      <input id="limitInput" type="number" min="25" max="2000" step="25" value="350" />
+      <button id="selectAllFilters" type="button">All</button>
+      <div id="entityFilters"></div>
+      <div id="relationFilters"></div>
+    </div>
+
     <main class="workspace">
-      <aside class="sidebar left">
-        <section>
-          <h3>Projection</h3>
-          <div id="projectionButtons" class="segmented vertical">
-            <button data-projection="architecture" class="active">Architecture</button>
-            <button data-projection="structure">Structure</button>
-            <button data-projection="types">Types</button>
-            <button data-projection="calls">Call graph</button>
-            <button data-projection="neighborhood">Neighborhood</button>
-            <button data-projection="custom">Custom</button>
-          </div>
-        </section>
-
-        <section>
-          <h3>Search</h3>
-          <input id="searchInput" class="text-input" placeholder="name, qualified name…" autocomplete="off" />
-          <div id="searchResults" class="search-results"></div>
-        </section>
-
-        <section id="scopeSection">
-          <h3>Scope</h3>
-          <select id="scopeSelect" class="select">
-            <option value="overview">Project overview</option>
-            <option value="module">Selected module</option>
-            <option value="selection">Selected entity</option>
-          </select>
-          <label class="field-row">
-            <span>Depth</span>
-            <input id="depthInput" type="range" min="1" max="3" step="1" value="1" />
-            <output id="depthOutput">1</output>
-          </label>
-          <label class="field-row">
-            <span>Node limit</span>
-            <input id="limitInput" type="number" min="25" max="2000" step="25" value="350" />
-          </label>
-        </section>
-
-        <section id="filtersSection">
-          <div class="section-head">
-            <h3>Filters</h3>
-            <button id="selectAllFilters" class="link-button">All</button>
-          </div>
-          <div id="entityFilters" class="filter-grid"></div>
-          <div class="filter-separator"></div>
-          <div id="relationFilters" class="filter-grid"></div>
-        </section>
-      </aside>
-
       <section id="graphPanel" class="graph-panel">
         <canvas id="graphCanvas"></canvas>
         <div id="emptyState" class="empty-state">
