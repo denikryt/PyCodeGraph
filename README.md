@@ -48,3 +48,7 @@ Structure view now uses a compound layout: class groups are laid out internally,
 ## Semantic cleanup (v3.6)
 
 Function/method parameter sockets now show `?` when no annotation is known rather than claiming `Any`. Return information is displayed as metadata (`returns : Type`, `returns value : ?`, or `returns : None`) instead of a connectable value socket until the artifact contains expression-level value flow. `reads`/`writes` relations are split by semantic role where the artifact provides one (`state`, `globals`, `locals`), and parameter reads are omitted from Structure view because the parameter is already represented by the function input socket.
+
+## Frame drag handle (v3.7)
+
+Class frames can now be moved together with their child nodes only by dragging the frame header. Dragging empty space inside the frame body pans the canvas instead of moving the group.
