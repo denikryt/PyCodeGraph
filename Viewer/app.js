@@ -9,7 +9,7 @@ const $=id=>document.getElementById(id);
 const els={
  fileInput:$('fileInput'),projectMeta:$('projectMeta'),canvas:$('graphCanvas'),graphPanel:$('graphPanel'),emptyState:$('emptyState'),dropOverlay:$('dropOverlay'),graphStatus:$('graphStatus'),legend:$('legend'),
  projectionButtons:$('projectionButtons'),searchInput:$('searchInput'),searchResults:$('searchResults'),scopeSelect:$('scopeSelect'),depthInput:$('depthInput'),depthOutput:$('depthOutput'),limitInput:$('limitInput'),
- entityFilters:$('entityFilters'),relationFilters:$('relationFilters'),selectAllFilters:$('selectAllFilters'),selectionEmpty:$('selectionEmpty'),selectionDetails:$('selectionDetails'),entityKind:$('entityKind'),entityName:$('entityName'),entityQualified:$('entityQualified'),entityMeta:$('entityMeta'),focusBtn:$('focusBtn'),moduleBtn:$('moduleBtn'),relationList:$('relationList'),relationCountBadge:$('relationCountBadge'),fitBtn:$('fitBtn'),resetBtn:$('resetBtn'),backBtn:$('backBtn'),breadcrumb:$('breadcrumb')
+ entityFilters:$('entityFilters'),relationFilters:$('relationFilters'),selectAllFilters:$('selectAllFilters'),selectionEmpty:$('selectionEmpty'),selectionDetails:$('selectionDetails'),entityKind:$('entityKind'),entityName:$('entityName'),entityQualified:$('entityQualified'),entityMeta:$('entityMeta'),focusBtn:$('focusBtn'),moduleBtn:$('moduleBtn'),relationList:$('relationList'),relationCountBadge:$('relationCountBadge'),relationHeading:$('relationHeading'),fitBtn:$('fitBtn'),resetBtn:$('resetBtn'),backBtn:$('backBtn'),breadcrumb:$('breadcrumb')
 };
 
 const state={graph:null,entityById:new Map(),outgoing:new Map(),incoming:new Map(),children:new Map(),moduleOf:new Map(),projection:'architecture',scope:'overview',depth:1,limit:180,selectedId:null,selectedModuleId:null,entityKinds:new Set(['project','module','class','function','method','field','type','external']),relationKinds:new Set(RELATION_KINDS),viewNodes:[],viewEdges:[],nodeMap:new Map(),camera:{x:0,y:0,scale:1},interaction:null,hoverId:null,dpr:window.devicePixelRatio||1,expandedGroups:new Set(),hierarchyFrames:[],navigationHistory:[],restoringHistory:false};
@@ -259,14 +259,67 @@ function relationPanelGroups(entity){
  add('Decorated by',outgoing.filter(r=>r.kind==='decorated_by'),'out');
  return groups;
 }
+const MODULE_DEPENDENCY_KINDS=new Set(['imports','calls','uses_type','inherits']);
+function moduleDependencyRelations(moduleId,dir){
+ const out=[];
+ for(const r of state.graph.relations){
+  if(!MODULE_DEPENDENCY_KINDS.has(r.kind))continue;
+  const sourceModule=state.moduleOf.get(r.source),targetModule=state.moduleOf.get(r.target);
+  if(!sourceModule||!targetModule||sourceModule===targetModule)continue;
+  if((dir==='out'&&sourceModule===moduleId)||(dir==='in'&&targetModule===moduleId))out.push(r);
+ }
+ return out;
+}
+function moduleRelationGroups(moduleId,dir){
+ const relations=moduleDependencyRelations(moduleId,dir),byModule=new Map();
+ for(const r of relations){
+  const otherModuleId=dir==='out'?state.moduleOf.get(r.target):state.moduleOf.get(r.source);
+  if(!otherModuleId)continue;
+  let g=byModule.get(otherModuleId);if(!g){const m=state.entityById.get(otherModuleId);g={moduleId:otherModuleId,moduleName:m?.qualified_name||m?.name||otherModuleId,relations:[]};byModule.set(otherModuleId,g);}g.relations.push(r);
+ }
+ return [...byModule.values()].sort((a,b)=>a.moduleName.localeCompare(b.moduleName));
+}
+function relationKindLabel(kind){return({imports:'imports',calls:'calls',uses_type:'uses type',inherits:'inherits'})[kind]||kind;}
+function renderModuleUsage(moduleEntity){
+ const sections=[['Uses',moduleRelationGroups(moduleEntity.id,'out'),'out'],['Used by',moduleRelationGroups(moduleEntity.id,'in'),'in']];
+ let total=0;
+ const html=sections.map(([title,groups,dir])=>{
+  const sectionCount=groups.reduce((n,g)=>n+g.relations.length,0);total+=sectionCount;
+  const body=groups.map(g=>{
+   const byEndpoint=new Map();
+   for(const r of g.relations){
+    const source=state.entityById.get(r.source),target=state.entityById.get(r.target);
+    const focus=dir==='out'?target:source;
+    const counterpart=dir==='out'?source:target;
+    const key=`${r.source}\0${r.target}`;
+    let item=byEndpoint.get(key);if(!item){item={focus,counterpart,kinds:new Map(),count:0};byEndpoint.set(key,item);}item.count++;item.kinds.set(r.kind,(item.kinds.get(r.kind)||0)+1);
+   }
+   const items=[...byEndpoint.values()].sort((a,b)=>(a.focus?.qualified_name||a.focus?.name||'').localeCompare(b.focus?.qualified_name||b.focus?.name||''));
+   return `<div class="module-usage-group"><div class="module-usage-module" data-id="${attr(g.moduleId)}"><span>${esc(g.moduleName)}</span><span>${g.relations.length}</span></div>${items.map(item=>{
+    const focusName=item.focus?.qualified_name||item.focus?.name||item.focus?.id||'?';
+    const localName=item.counterpart?.qualified_name||item.counterpart?.name||item.counterpart?.id||'?';
+    const kinds=[...item.kinds.entries()].map(([k,c])=>`${relationKindLabel(k)}${c>1?` ×${c}`:''}`).join(' · ');
+    const arrow=dir==='out'?'→':'←';
+    return `<div class="module-usage-row" data-id="${attr(item.focus?.id||'')}"><div class="module-usage-target"><span class="module-usage-kind">${esc(item.focus?.kind||'entity')}</span>${esc(focusName)}</div><div class="module-usage-context">${esc(localName)} ${arrow} ${esc(focusName)} · ${esc(kinds)}</div></div>`;
+   }).join('')}</div>`;
+  }).join('')||'<div class="muted module-usage-empty">None</div>';
+  return `<div class="module-usage-section"><div class="relation-section-title"><span>${esc(title)}</span><span>${sectionCount}</span></div>${body}</div>`;
+ }).join('');
+ els.relationCountBadge.textContent=total.toLocaleString();
+ els.relationList.innerHTML=html;
+ els.relationList.querySelectorAll('.module-usage-module').forEach(row=>row.onclick=()=>selectNode(row.dataset.id));
+ els.relationList.querySelectorAll('.module-usage-row').forEach(row=>row.onclick=()=>{if(row.dataset.id)selectNode(row.dataset.id);});
+}
 function updateSelectionPanel(){
  const e=state.selectedId?state.entityById.get(state.selectedId):null;
  els.selectionEmpty.hidden=!!e;els.selectionDetails.hidden=!e;
- if(!e){els.relationList.textContent='No selection.';els.relationCountBadge.textContent='0';return;}
+ if(!e){els.relationHeading.textContent='Usage';els.relationList.textContent='No selection.';els.relationCountBadge.textContent='0';return;}
  els.entityKind.textContent=e.kind;els.entityKind.style.borderColor=COLORS[e.kind]||'#678';els.entityName.textContent=e.name;els.entityQualified.textContent=e.qualified_name||e.id;
  const rows=[];
  if(e.parent)rows.push(['parent',state.entityById.get(e.parent)?.qualified_name||e.parent]);
  els.entityMeta.innerHTML=rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
+ if(e.kind==='module'){els.relationHeading.textContent='Module usage';renderModuleUsage(e);return;}
+ els.relationHeading.textContent='Usage';
  const groups=relationPanelGroups(e),total=groups.reduce((n,g)=>n+g.items.reduce((m,x)=>m+x.count,0),0);
  els.relationCountBadge.textContent=total.toLocaleString();
  els.relationList.innerHTML=groups.map(g=>`<div class="relation-section"><div class="relation-section-title">${esc(g.title)} <span>${g.items.reduce((n,x)=>n+x.count,0)}</span></div>${g.items.map(item=>`<div class="relation-row" data-id="${attr(item.id)}"><span class="relation-target">${esc(item.qualified||item.name)}</span>${item.count>1?`<span class="relation-multiplicity">×${item.count}</span>`:''}</div>`).join('')}</div>`).join('')||'<span class="muted">No semantic relations.</span>';
