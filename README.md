@@ -37,6 +37,10 @@ Structure mode uses a hierarchy-aware layout. Each top-level class/function subt
 
 Structure view uses semantic relations (`calls`, `imports`, `uses_type`, etc.) to compute a left-to-right layered layout. Hierarchy no longer dictates node columns. Class frames are drawn only after nodes are positioned, so frames are annotations/groups rather than layout constraints. The selected module is not wrapped in one giant frame. Dragging an empty class-frame area still moves the class and its visible descendants together.
 
-## Endpoint aggregation update (v3.4)
+## Endpoint aggregation update (v3.5)
 
 Expanded relation groups aggregate repeated relations to the same semantic endpoint. For example, five calls to the same `isinstance` entity are rendered as one endpoint row, `isinstance ×5`, instead of five duplicate rows. The grouping key is the target/source entity ID rather than display text, so unrelated same-named entities are not merged. All underlying edges remain in the graph and are routed through the shared endpoint port.
+
+
+## v3.5 layout
+Structure view now uses a compound layout: class groups are laid out internally, collapsed to sized blocks, and then positioned by inter-group semantic edges. Top-level class frames therefore do not overlap, while group spacing is based on actual content bounds instead of oversized fixed hierarchy columns.
