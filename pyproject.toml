@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycodegraph"
-version = "0.2.0"
+version = "0.3.0"
 description = "Semantic code graph extractor for Python projects"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -16,3 +16,6 @@ pycodegraph = "pycodegraph.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
