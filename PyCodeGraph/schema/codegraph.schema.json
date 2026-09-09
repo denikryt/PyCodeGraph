@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/pycodegraph/1.0/schema.json",
+  "title": "PyCodeGraph IR 1.0",
+  "type": "object",
+  "required": ["schema", "generator", "project", "entities", "relations", "diagnostics"],
+  "properties": {
+    "schema": {"const": "pycodegraph/1.0"},
+    "generator": {"type": "object"},
+    "project": {"type": "object"},
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "name", "qualified_name", "attributes"],
+        "properties": {
+          "id": {"type": "string"},
+          "kind": {"enum": ["project", "module", "class", "function", "method", "parameter", "variable", "field", "type", "external"]},
+          "name": {"type": "string"},
+          "qualified_name": {"type": "string"},
+          "parent": {"type": ["string", "null"]},
+          "span": {"$ref": "#/$defs/span"},
+          "attributes": {"type": "object"}
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "source", "target", "attributes"],
+        "properties": {
+          "kind": {"enum": ["contains", "imports", "inherits", "calls", "reads", "writes", "accepts", "returns", "uses_type", "decorated_by"]},
+          "source": {"type": "string"},
+          "target": {"type": "string"},
+          "span": {"$ref": "#/$defs/span"},
+          "attributes": {"type": "object"}
+        }
+      }
+    },
+    "diagnostics": {"type": "array"}
+  },
+  "$defs": {
+    "span": {
+      "type": ["object", "null"],
+      "properties": {
+        "path": {"type": "string"},
+        "start_line": {"type": "integer", "minimum": 1},
+        "start_col": {"type": "integer", "minimum": 0},
+        "end_line": {"type": "integer", "minimum": 1},
+        "end_col": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

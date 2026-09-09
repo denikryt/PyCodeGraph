@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pycodegraph"
+version = "0.2.0"
+description = "Semantic code graph extractor for Python projects"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "OpenAI"}]
+dependencies = []
+
+[project.scripts]
+pycodegraph = "pycodegraph.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
