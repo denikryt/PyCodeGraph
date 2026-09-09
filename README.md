@@ -44,3 +44,7 @@ Expanded relation groups aggregate repeated relations to the same semantic endpo
 
 ## v3.5 layout
 Structure view now uses a compound layout: class groups are laid out internally, collapsed to sized blocks, and then positioned by inter-group semantic edges. Top-level class frames therefore do not overlap, while group spacing is based on actual content bounds instead of oversized fixed hierarchy columns.
+
+## Semantic cleanup (v3.6)
+
+Function/method parameter sockets now show `?` when no annotation is known rather than claiming `Any`. Return information is displayed as metadata (`returns : Type`, `returns value : ?`, or `returns : None`) instead of a connectable value socket until the artifact contains expression-level value flow. `reads`/`writes` relations are split by semantic role where the artifact provides one (`state`, `globals`, `locals`), and parameter reads are omitted from Structure view because the parameter is already represented by the function input socket.
