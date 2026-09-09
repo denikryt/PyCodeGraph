@@ -85,11 +85,6 @@ h2 { margin: 7px 0; font-size: 18px; line-height: 1.2; }
 .relation-row:hover { color: #dbe8f5; }
 .relation-kind { display: inline-block; width: 76px; color: #7f9ec5; font-size: 9px; text-transform: uppercase; }
 .relation-target { font-size: 11px; }
-.outline { max-height: 340px; overflow: auto; }
-.outline-group { margin-bottom: 3px; }
-.outline-module { width: 100%; text-align: left; padding: 6px; border: 0; border-radius: 5px; background: transparent; color: #b8c4d1; cursor: pointer; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.outline-module:hover { background: #192531; }
-.outline-module.selected { background: #22334a; color: white; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
 @media (max-width: 1100px) {
   :root { --sidebar-w: 230px; }

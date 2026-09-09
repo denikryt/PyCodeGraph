@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycodegraph"
-version = "0.3.9"
+version = "0.3.10"
 description = "Semantic code graph extractor for Python projects"
 readme = "README.md"
 requires-python = ">=3.11"
